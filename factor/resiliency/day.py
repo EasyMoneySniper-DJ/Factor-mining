@@ -94,7 +94,7 @@ def cal_factor(data):
 
 
 ## 批量计算因子并保存
-def pipeline(parent_path, folder_name, list_folder_name, date):
+def pipeline_D(parent_path, folder_name, list_folder_name, date):
     # 定义数据长度
     win_days = [20, 60, 120]
     # 存结果
@@ -109,13 +109,13 @@ def pipeline(parent_path, folder_name, list_folder_name, date):
     grouped = data.groupby("code")
     # 按个股计算因子
     for stock_code, group in grouped:
-        print(f"Processing stock: {stock_code}")
+        # print(f"Processing stock: {stock_code}")
         group = group.sort_values(by="date").reset_index(drop=True)
         #取max(win_days)长度的数据
         group = group.tail(max(win_days))
         #确保数据长度
         if len(group) < max(win_days):
-            print(f"数据长度不足，跳过{stock_code}")
+            print(f"Skip {stock_code}")
             continue
         #应用HP滤波
         stock_data_ex = hp_filter(group)
@@ -138,22 +138,5 @@ def pipeline(parent_path, folder_name, list_folder_name, date):
         #合并结果
         all_results = pd.concat([all_results, stock_result], ignore_index=True)
 
-    ## Step3: 整合结果并输出csv
-    # 保存结果到目标文件夹
-    output_dir = os.path.join(parent_path, "result", "resiliency")
-    os.makedirs(output_dir, exist_ok=True)
-    output_path = os.path.join(output_dir, f"{date}.csv")
-    all_results.to_csv(output_path, index=False)
-    print(f"Results saved to {output_path}")
+    return all_results
 
-
-## 主函数
-if __name__ == "__main__":
-    # 设置数据路径
-    parent_path = "D:\Quant\SHNF_Intern"
-    folder_name = "data\stock_bfq_price"
-    list_folder_name = "data\list_stocks"
-    # 目标日期
-    date = "2025-01-14"
-    # 运行计算
-    pipeline(parent_path, folder_name, list_folder_name, date)
