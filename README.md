@@ -1,2 +1,3 @@
 # Factor-mining
- Place for my factors
+ Place for my factors.  
+ May occasionally update my work results.
