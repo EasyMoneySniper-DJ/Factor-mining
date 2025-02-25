@@ -13,8 +13,8 @@ warnings.simplefilter("ignore", UserWarning)
 warnings.simplefilter("ignore", FutureWarning)
 
 # ===== 读文件 =====
-data_small = r"D:\Quant\SHNF_Intern\data\zz1000_price.csv"
-data_big = r"D:\Quant\SHNF_Intern\data\hs300_price.csv"
+data_small = r""
+data_big = r""
 target_col = ["date", "open", "high", "low", "close", "volume"]
 df_small = pd.read_csv(data_small, usecols=target_col, parse_dates=["date"])
 df_big = pd.read_csv(data_big, usecols=target_col, parse_dates=["date"])
